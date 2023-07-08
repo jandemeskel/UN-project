@@ -1,9 +1,5 @@
-from datetime import date, timedelta
-import numpy as np
-import pandas as pd
-import re
+import pandas as pd, re
 import sqlalchemy
-import s3fs
 
 
 
@@ -29,14 +25,23 @@ class Utils():
     def has_numbers(inputString:str) -> str:
         return bool(re.search(r'\d', inputString))
 
+    @staticmethod
+    def create_db_connection(username:str,password:str,host:str,db_name:str) -> sqlalchemy.engine:
+        """
+        Create a connection to postgres database used throughout project
+        """
+        conn_string = f"""postgresql://{username}:{password}@{host}/{db_name}"""
+        return sqlalchemy.create_engine(conn_string).connect()
+
+
 
     @staticmethod
-    def query_db(query:str, connection) -> pd.DataFrame:
-        """
-        Query a database via a given engine connection.
-        """
-        return pd.read_sql_query(query,connection)
 
+    def upload_staging_data(df, connection, table_name, environment):
+            """
+            Upload dataframe to Postgres server using sqlalchemy engine
+            """
+            return df.to_sql(name=table_name, con=connection, if_exists='replace', schema=environment)
 
     # @staticmethod
     # def retrieve_bucket(bucket_name:str) -> list:
