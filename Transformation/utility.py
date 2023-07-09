@@ -1,4 +1,4 @@
-import sqlalchemy 
+import sqlalchemy as db
 import pandas as pd
 
 
@@ -15,7 +15,7 @@ class Utils():
         Create a connection to postgres database used throughout project
         """
         conn_string = f"""postgresql://{username}:{password}@{host}/{db_name}"""
-        return sqlalchemy.create_engine(conn_string).connect()
+        return db.create_engine(conn_string).connect()
 
     @staticmethod
     def fetch_db_table(table:str, connection, environment:str) -> pd.DataFrame:

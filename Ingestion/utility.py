@@ -1,5 +1,5 @@
 import pandas as pd, re
-import sqlalchemy
+import sqlalchemy as db
 
 
 
@@ -26,17 +26,16 @@ class Utils():
         return bool(re.search(r'\d', inputString))
 
     @staticmethod
-    def create_db_connection(username:str,password:str,host:str,db_name:str) -> sqlalchemy.engine:
+    def create_db_connection(username:str,password:str,host:str,db_name:str) -> db.engine:
         """
         Create a connection to postgres database used throughout project
         """
         conn_string = f"""postgresql://{username}:{password}@{host}/{db_name}"""
-        return sqlalchemy.create_engine(conn_string).connect()
+        return db.create_engine(conn_string)
 
 
 
     @staticmethod
-
     def upload_staging_data(df, connection, table_name, environment):
             """
             Upload dataframe to Postgres server using sqlalchemy engine
