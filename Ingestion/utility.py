@@ -36,7 +36,7 @@ class Utils():
 
 
     @staticmethod
-    def upload_staging_data(df, connection, table_name, environment):
+    def upload_data(df, connection, table_name, environment):
             """
             Upload dataframe to Postgres server using sqlalchemy engine
             """
